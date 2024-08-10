@@ -3,13 +3,11 @@ export default class Order {
   private _id: string;
   private _customerId: string;
   private _items: OrderItem[];
-  private _total: number;
 
   constructor(id: string, customerId: string, items: OrderItem[]) {
     this._id = id;
     this._customerId = customerId;
     this._items = items;
-    this._total = this.total();
     this.validate();
   }
 
@@ -23,6 +21,26 @@ export default class Order {
 
   get items(): OrderItem[] {
     return this._items;
+  }
+
+  changeCustomerId(customerId: string) {
+    this._customerId = customerId;
+  }
+
+  updateItem(item: OrderItem) {
+    const index = this._items.findIndex((i) => i.id === item.id);
+    if (index === -1) {
+      throw new Error("Item not found");
+    }
+    this._items[index] = item;
+  }
+
+  removeItem(id: string) {
+    this._items = this._items.filter((item) => item.id !== id);
+  }
+
+  addNewItem(orderItem3: OrderItem) {
+    this._items.push(orderItem3);
   }
 
   validate(): boolean {
